@@ -107,7 +107,13 @@
 
                 <!-- Pre-Service Setup Card -->
                 <div class="card p-6 checklist-card">
-                    <h2 class="text-xl font-semibold border-b pb-3 mb-4">Pre-Service Setup</h2>
+                    <div class="flex items-center border-b pb-3 mb-4">
+                        <h2 class="text-xl font-semibold">Pre-Service Setup</h2>
+                        <svg class="h-5 w-5 ml-2 hidden completion-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="11" fill="#22c55e"/>
+                            <path d="M9 12.5L11.5 15L16 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="mb-4">
                         <div class="progress-bar-container">
                             <div class="progress-bar" style="width: 0%;"></div>
@@ -132,7 +138,13 @@
                 
                 <!-- Software & Video Preparation Card -->
                 <div class="card p-6 checklist-card">
-                    <h2 class="text-xl font-semibold border-b pb-3 mb-4">Software & Video Preparation</h2>
+                    <div class="flex items-center border-b pb-3 mb-4">
+                        <h2 class="text-xl font-semibold">Software & Video Preparation</h2>
+                        <svg class="h-5 w-5 ml-2 hidden completion-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="11" fill="#22c55e"/>
+                            <path d="M9 12.5L11.5 15L16 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="mb-4">
                         <div class="progress-bar-container">
                             <div class="progress-bar" style="width: 0%;"></div>
@@ -153,7 +165,13 @@
 
                 <!-- Sound Check & Calibration Card -->
                 <div class="card p-6 checklist-card">
-                    <h2 class="text-xl font-semibold border-b pb-3 mb-4">Sound Check & Calibration</h2>
+                    <div class="flex items-center border-b pb-3 mb-4">
+                        <h2 class="text-xl font-semibold">Sound Check & Calibration</h2>
+                        <svg class="h-5 w-5 ml-2 hidden completion-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="11" fill="#22c55e"/>
+                            <path d="M9 12.5L11.5 15L16 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="mb-4">
                         <div class="progress-bar-container">
                             <div class="progress-bar" style="width: 0%;"></div>
@@ -173,7 +191,13 @@
 
                 <!-- Before service starts Card -->
                 <div class="card p-6 checklist-card">
-                    <h2 class="text-xl font-semibold border-b pb-3 mb-4">Before service starts</h2>
+                    <div class="flex items-center border-b pb-3 mb-4">
+                        <h2 class="text-xl font-semibold">Before service starts</h2>
+                        <svg class="h-5 w-5 ml-2 hidden completion-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="11" fill="#22c55e"/>
+                            <path d="M9 12.5L11.5 15L16 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
                     <div class="mb-4">
                         <div class="progress-bar-container">
                             <div class="progress-bar" style="width: 0%;"></div>
@@ -252,6 +276,15 @@
                     progressBar.style.width = percentage + '%';
                     progressBar.textContent = percentage + '%';
                     progressText.textContent = `${percentage}% Complete`;
+                }
+
+                const icon = card.querySelector('.completion-icon');
+                if (icon) {
+                    if (percentage === 100) {
+                        icon.classList.remove('hidden');
+                    } else {
+                        icon.classList.add('hidden');
+                    }
                 }
             }
 
