@@ -1,185 +1,843 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projection Checklist</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>AV Checklist</title>
+    <meta name="description" content="AV Projection checklist for Sunday service setup, streaming, and teardown.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Light Mode Default Styles */
+        /* ===== CSS Custom Properties (Design Tokens) ===== */
+        :root {
+            /* Colors — Light Mode */
+            --bg-primary: #f0f2f8;
+            --bg-card: rgba(255, 255, 255, 0.65);
+            --bg-card-border: rgba(255, 255, 255, 0.45);
+            --bg-header: rgba(255, 255, 255, 0.7);
+            --text-primary: #1a1d2e;
+            --text-secondary: #5a5f7a;
+            --text-muted: #8b90a8;
+            --border-color: rgba(0, 0, 0, 0.06);
+            --accent-start: #6366f1;
+            --accent-mid: #8b5cf6;
+            --accent-end: #ec4899;
+            --progress-bg: rgba(99, 102, 241, 0.1);
+            --checkbox-border: #c7c9d9;
+            --checkbox-bg: transparent;
+            --card-shadow: 0 8px 32px rgba(99, 102, 241, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+            --card-hover-shadow: 0 12px 40px rgba(99, 102, 241, 0.14), 0 4px 12px rgba(0, 0, 0, 0.06);
+            --glow-complete: rgba(52, 211, 153, 0.25);
+            --header-shadow: 0 4px 30px rgba(99, 102, 241, 0.08);
+            --task-hover-bg: rgba(99, 102, 241, 0.04);
+            --mesh-1: rgba(99, 102, 241, 0.08);
+            --mesh-2: rgba(139, 92, 246, 0.06);
+            --mesh-3: rgba(236, 72, 153, 0.05);
+            --floating-bg: rgba(255, 255, 255, 0.8);
+            --floating-border: rgba(255, 255, 255, 0.5);
+            --reset-bg: rgba(99, 102, 241, 0.08);
+            --reset-hover-bg: rgba(99, 102, 241, 0.14);
+            --reset-text: var(--accent-start);
+            --badge-bg: rgba(99, 102, 241, 0.1);
+
+            /* Spacing */
+            --space-xs: 0.25rem;
+            --space-sm: 0.5rem;
+            --space-md: 1rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --space-2xl: 3rem;
+
+            /* Radius */
+            --radius-sm: 0.5rem;
+            --radius-md: 0.875rem;
+            --radius-lg: 1.25rem;
+            --radius-full: 9999px;
+
+            /* Transitions */
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --duration-fast: 0.15s;
+            --duration-normal: 0.3s;
+            --duration-slow: 0.5s;
+        }
+
+        /* ===== Dark Mode Tokens ===== */
+        .dark {
+            --bg-primary: #0c0e1a;
+            --bg-card: rgba(22, 27, 48, 0.7);
+            --bg-card-border: rgba(99, 102, 241, 0.12);
+            --bg-header: rgba(22, 27, 48, 0.8);
+            --text-primary: #e8eaf0;
+            --text-secondary: #9fa3bd;
+            --text-muted: #6b6f8a;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --checkbox-border: #4a4e6a;
+            --checkbox-bg: rgba(255, 255, 255, 0.03);
+            --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(99, 102, 241, 0.06);
+            --card-hover-shadow: 0 16px 48px rgba(0, 0, 0, 0.4), 0 4px 16px rgba(99, 102, 241, 0.1);
+            --glow-complete: rgba(52, 211, 153, 0.15);
+            --header-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+            --task-hover-bg: rgba(99, 102, 241, 0.06);
+            --mesh-1: rgba(99, 102, 241, 0.06);
+            --mesh-2: rgba(139, 92, 246, 0.05);
+            --mesh-3: rgba(236, 72, 153, 0.04);
+            --floating-bg: rgba(22, 27, 48, 0.85);
+            --floating-border: rgba(99, 102, 241, 0.15);
+            --progress-bg: rgba(99, 102, 241, 0.12);
+            --reset-bg: rgba(99, 102, 241, 0.1);
+            --reset-hover-bg: rgba(99, 102, 241, 0.18);
+            --badge-bg: rgba(99, 102, 241, 0.15);
+        }
+
+        /* ===== Reset & Base ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
-            color: #1f2937;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: background-color var(--duration-normal) var(--ease-smooth),
+                color var(--duration-normal) var(--ease-smooth);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
-        .card {
-            background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            transition: all 0.2s ease-in-out;
+
+        /* ===== Animated Mesh Background ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse 60% 50% at 20% 20%, var(--mesh-1) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 60% at 80% 30%, var(--mesh-2) 0%, transparent 60%),
+                radial-gradient(ellipse 55% 45% at 50% 80%, var(--mesh-3) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+            animation: meshFloat 20s ease-in-out infinite alternate;
         }
-        .card:hover {
-             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+        @keyframes meshFloat {
+            0% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+
+            100% {
+                opacity: 0.7;
+                transform: scale(1.05) rotate(1deg);
+            }
         }
-        .task-item input:checked + span {
-            text-decoration: line-through;
-            color: #6b7280;
+
+        /* ===== Header ===== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--bg-header);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: var(--header-shadow);
+            transition: background var(--duration-normal) var(--ease-smooth),
+                box-shadow var(--duration-normal) var(--ease-smooth);
         }
-        .progress-bar-container {
-            background-color: #e5e7eb;
-            border-radius: 9999px;
-            height: 0.75rem;
-            width: 100%;
+
+        .header-inner {
+            max-width: 52rem;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-mid), var(--accent-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        /* ===== Theme Toggle Button ===== */
+        .theme-toggle {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            background: var(--bg-card);
+            backdrop-filter: blur(8px);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all var(--duration-fast) var(--ease-smooth);
+        }
+
+        .theme-toggle:hover {
+            background: var(--task-hover-bg);
+            color: var(--accent-start);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .theme-toggle svg {
+            width: 1.15rem;
+            height: 1.15rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ===== Floating Overall Progress ===== */
+        .floating-progress {
+            position: sticky;
+            top: 4.25rem;
+            z-index: 90;
+            padding: 0 1.5rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .floating-progress-inner {
+            max-width: 52rem;
+            margin: 0 auto;
+            background: var(--floating-bg);
+            backdrop-filter: blur(16px) saturate(1.3);
+            -webkit-backdrop-filter: blur(16px) saturate(1.3);
+            border: 1px solid var(--floating-border);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all var(--duration-normal) var(--ease-smooth);
+        }
+
+        .floating-progress-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+        }
+
+        .floating-progress-bar-wrap {
+            flex: 1;
+            height: 0.5rem;
+            background: var(--progress-bg);
+            border-radius: var(--radius-full);
             overflow: hidden;
         }
-        .progress-bar {
-            background-color: #3b82f6;
+
+        .floating-progress-bar {
             height: 100%;
-            border-radius: 9999px;
-            transition: width 0.5s ease-in-out;
-            text-align: center;
+            width: 0%;
+            border-radius: var(--radius-full);
+            background: linear-gradient(90deg, var(--accent-start), var(--accent-mid), var(--accent-end));
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+            transition: width var(--duration-slow) var(--ease-smooth);
+        }
+
+        .floating-progress-pct {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-start);
+            min-width: 2.5rem;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ===== Main Content ===== */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            max-width: 52rem;
+            margin: 0 auto;
+            padding: var(--space-lg) var(--space-lg) var(--space-2xl);
+        }
+
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xl);
+        }
+
+        /* ===== Checklist Card ===== */
+        .card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px) saturate(1.3);
+            -webkit-backdrop-filter: blur(16px) saturate(1.3);
+            border: 1px solid var(--bg-card-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-xl);
+            box-shadow: var(--card-shadow);
+            transition: box-shadow var(--duration-normal) var(--ease-smooth),
+                border-color var(--duration-slow) var(--ease-smooth),
+                transform var(--duration-normal) var(--ease-smooth),
+                background var(--duration-normal) var(--ease-smooth);
+            /* Entrance animation */
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.6s var(--ease-smooth),
+                transform 0.6s var(--ease-spring),
+                box-shadow var(--duration-normal) var(--ease-smooth),
+                border-color var(--duration-slow) var(--ease-smooth);
+        }
+
+        .card:hover {
+            box-shadow: var(--card-hover-shadow);
+        }
+
+        .card.section-complete {
+            border-color: var(--glow-complete);
+            box-shadow: var(--card-shadow), 0 0 30px var(--glow-complete);
+        }
+
+        /* ===== Section Header ===== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 2.75rem;
+            height: 2.75rem;
+            border-radius: var(--radius-sm);
+            background: var(--badge-bg);
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: var(--text-primary);
+            line-height: 1.3;
+        }
+
+        .section-count {
+            margin-left: auto;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            white-space: nowrap;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ===== Per-Card Progress Bar ===== */
+        .card-progress-wrap {
+            margin-bottom: var(--space-lg);
+        }
+
+        .card-progress-bar-container {
+            height: 0.45rem;
+            background: var(--progress-bg);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .card-progress-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: var(--radius-full);
+            background: linear-gradient(90deg, var(--accent-start), var(--accent-mid), var(--accent-end));
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+            transition: width var(--duration-slow) var(--ease-smooth);
+            position: relative;
+        }
+
+        .card-progress-bar.complete {
+            background: linear-gradient(90deg, #34d399, #10b981, #059669);
+            background-size: 200% 100%;
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .card-progress-text {
+            text-align: right;
+            margin-top: var(--space-xs);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ===== Task List ===== */
+        .task-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .task-item {
+            border-radius: var(--radius-sm);
+            transition: background var(--duration-fast) var(--ease-smooth);
+        }
+
+        .task-item:hover {
+            background: var(--task-hover-bg);
+        }
+
+        .task-label {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            cursor: pointer;
+            gap: 0.75rem;
+            user-select: none;
+        }
+
+        /* ===== Custom Checkbox ===== */
+        .task-checkbox {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 1.35rem;
+            height: 1.35rem;
+            border-radius: 0.375rem;
+            border: 2px solid var(--checkbox-border);
+            background: var(--checkbox-bg);
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative;
+            transition: all var(--duration-fast) var(--ease-spring);
+        }
+
+        .task-checkbox:hover {
+            border-color: var(--accent-start);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+        }
+
+        .task-checkbox:checked {
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-mid));
+            border-color: transparent;
+            animation: checkBounce 0.35s var(--ease-spring);
+        }
+
+        .task-checkbox:checked::after {
+            content: '';
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            width: 0.4rem;
+            height: 0.7rem;
+            border: solid white;
+            border-width: 0 2.5px 2.5px 0;
+            transform: translate(-50%, -55%) rotate(45deg);
+            animation: checkmark 0.2s var(--ease-smooth) 0.05s both;
+        }
+
+        @keyframes checkBounce {
+            0% {
+                transform: scale(1);
+            }
+
+            40% {
+                transform: scale(0.85);
+            }
+
+            70% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes checkmark {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -55%) rotate(45deg) scale(0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -55%) rotate(45deg) scale(1);
+            }
+        }
+
+        /* ===== Task Text ===== */
+        .task-text {
+            font-size: 0.9rem;
+            font-weight: 450;
+            color: var(--text-primary);
+            transition: all var(--duration-normal) var(--ease-smooth);
+            line-height: 1.4;
+        }
+
+        .task-checkbox:checked~.task-text {
+            color: var(--text-muted);
+            text-decoration: line-through;
+            text-decoration-color: var(--text-muted);
+            text-decoration-thickness: 1.5px;
+            opacity: 0.6;
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            position: relative;
+            z-index: 1;
+            max-width: 52rem;
+            margin: 0 auto;
+            padding: var(--space-md) var(--space-lg) var(--space-2xl);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .reset-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: 0.6rem 1.25rem;
+            border-radius: var(--radius-full);
+            border: none;
+            background: var(--reset-bg);
+            color: var(--reset-text);
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-smooth);
+            letter-spacing: 0.01em;
+        }
+
+        .reset-btn:hover {
+            background: var(--reset-hover-bg);
+            transform: translateY(-1px);
+        }
+
+        .reset-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .reset-btn svg {
+            width: 0.9rem;
+            height: 0.9rem;
+        }
+
+        /* ===== Confetti Canvas ===== */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 200;
+        }
+
+        /* ===== All-Done Overlay ===== */
+        .all-done-toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: linear-gradient(135deg, var(--accent-start), var(--accent-mid));
             color: white;
-            font-size: 0.6rem;
-            line-height: 0.75rem;
-        }
-        header {
-            background-color: white;
-        }
-
-        /* Dark Mode Styles */
-        .dark body {
-            background-color: #111827;
-            color: #d1d5db;
-        }
-        .dark .card {
-            background-color: #1f2937;
-            border: 1px solid #374151;
-        }
-        .dark header {
-            background-color: #1f2937;
-            border-bottom: 1px solid #374151;
-        }
-        .dark h1, .dark h2 {
-            color: #f9fafb;
-        }
-        .dark .task-item input:checked + span {
-            color: #9ca3af;
-        }
-        .dark .progress-bar-container {
-            background-color: #374151;
-        }
-        .dark .progress-text {
-            color: #9ca3af;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.3);
+            opacity: 0;
+            transition: all 0.5s var(--ease-spring);
+            z-index: 150;
+            white-space: nowrap;
         }
 
+        .all-done-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 640px) {
+            .header-inner {
+                padding: 0.875rem 1rem;
+            }
+
+            .header h1 {
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                padding: var(--space-md) var(--space-md) var(--space-xl);
+            }
+
+            .card {
+                padding: var(--space-lg);
+            }
+
+            .floating-progress {
+                padding: 0 1rem;
+            }
+
+            .floating-progress-inner {
+                padding: 0.6rem 1rem;
+                gap: var(--space-sm);
+            }
+
+            .floating-progress-label {
+                font-size: 0.7rem;
+            }
+
+            .section-icon {
+                width: 2.25rem;
+                height: 2.25rem;
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 0.95rem;
+            }
+
+            .task-label {
+                padding: 0.55rem 0.5rem;
+            }
+
+            .task-text {
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
-<body class="antialiased">
+
+<body>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti-canvas"></canvas>
 
     <!-- Header -->
-    <header class="shadow-sm">
-        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-bold leading-tight">Projection Checklist 📋</h1>
+    <header class="header">
+        <div class="header-inner">
+            <h1>AV Checklist</h1>
+            <div class="header-actions">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <svg id="theme-toggle-dark-icon" class="hidden" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                    <svg id="theme-toggle-light-icon" class="hidden" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
             </div>
-            <button id="theme-toggle" class="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-                <svg id="theme-toggle-dark-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                </svg>
-                <svg id="theme-toggle-light-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-            </button>
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="py-10">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-
-            <!-- Vertically Aligned Checklist Sections -->
-            <div class="space-y-8">
-                
-                <!-- Software & Video Preparation Card -->
-                <div class="card p-6 checklist-card">
-                    <h2 class="text-xl font-semibold border-b pb-3 mb-4">🎬 8.30AM AND ONWARD 🎬</h2>
-                    <div class="mb-4">
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: 0%;"></div>
-                        </div>
-                        <div class="text-right mt-1 text-xs font-medium text-gray-500 progress-text">0%</div>
-                    </div>
-                    <ul class="space-y-3">
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Power On the projector</span></label></li>
-						<li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Bring the projection screen down</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Power On the camera </span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>OBS gets image and sound (Camera 1 + Unable/Disable Mic 1)</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Start the streaming on OBS only </span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Music (Playlist folder on desktop)</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Youtube Livestream Page receives the Image (but is not live yet)</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Kaleo AI Page is ready to go live when the service starts</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Create the Easy Worship Schedule using Planning Center</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Confirm every slide (no cut off text or weird formatting).</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Confirm lyrics as the worship crew practices</span></label></li>
-						<li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Put on the Accouncement slideshow</span></label></li>
-                    </ul>
-                </div>
-
-                <!-- Before service starts Card -->
-                <div class="card p-6 checklist-card">
-                    <h2 class="text-xl font-semibold border-b pb-3 mb-4">🏁 AFTER THE MEETING ON STAGE WITH THE TEAM 🏁</h2>
-                    <div class="mb-4">
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: 0%;"></div>
-                        </div>
-                        <div class="text-right mt-1 text-xs font-medium text-gray-500 progress-text">0%</div>
-                    </div>
-                    <ul class="space-y-3">
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Black Screen</span></label></li>
-						<li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Enable the livestream Mic 1 on the Blackmagic</span></label></li>
-						<li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Start Youtube Livestream</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Start OBS RECORDING (for Elvin)</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Press Play on Kaleo AI</span></label></li>
-                    </ul>
-                </div>
-				
-				                <!-- AFTER SERVICE -->
-                <div class="card p-6 checklist-card">
-                    <h2 class="text-xl font-semibold border-b pb-3 mb-4">🧹 AFTER THE SERVICE 🧹</h2>
-                    <div class="mb-4">
-                        <div class="progress-bar-container">
-                            <div class="progress-bar" style="width: 0%;"></div>
-                        </div>
-                        <div class="text-right mt-1 text-xs font-medium text-gray-500 progress-text">0%</div>
-                    </div>
-                    <ul class="space-y-3">
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Stop Livestream on Youtube</span></label></li>
-						<li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Stop Recording on OBS (let the file generates)</span></label></li>
-						<li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Close OBS</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Stop KALEO AI</span></label></li>
-                        <li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Turn Off the Projector</span></label></li>
-						<li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Turn Off the Camera</span></label></li>
-						<li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Lock the Computer (leave it on for the week)</span></label></li>
-						<li class="task-item"><label class="flex items-center"><input type="checkbox" class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"><span>Define with the other Tech who closes the AV Station</span></label></li>
-                    </ul>
-                </div>
-
+    <!-- Floating Overall Progress -->
+    <div class="floating-progress">
+        <div class="floating-progress-inner">
+            <span class="floating-progress-label">Overall</span>
+            <div class="floating-progress-bar-wrap">
+                <div class="floating-progress-bar" id="overall-progress-bar"></div>
             </div>
+            <span class="floating-progress-pct" id="overall-progress-pct">0%</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="cards-container">
+
+            <!-- 8:30 AM AND ONWARD -->
+            <div class="card checklist-card" id="card-morning">
+                <div class="section-header">
+                    <div class="section-icon">🎬</div>
+                    <div>
+                        <div class="section-title">8:30 AM and Onward</div>
+                    </div>
+                    <span class="section-count">0 / 12</span>
+                </div>
+                <div class="card-progress-wrap">
+                    <div class="card-progress-bar-container">
+                        <div class="card-progress-bar"></div>
+                    </div>
+                    <div class="card-progress-text">0% Complete</div>
+                </div>
+                <ul class="task-list">
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Power On the projector</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Bring the projection screen down</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Power On the camera</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">OBS gets image and sound (Camera 1 + Unable/Disable Mic
+                                1)</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Start the streaming on OBS only</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Music (Playlist folder on desktop)</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Youtube Livestream Page receives the Image (but is not live
+                                yet)</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Kaleo AI Page is ready to go live when the service
+                                starts</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Create the Easy Worship Schedule using Planning Center</span></label>
+                    </li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Confirm every slide (no cut off text or weird
+                                formatting)</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Confirm lyrics as the worship crew practices</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Put on the Announcement slideshow</span></label></li>
+                </ul>
+            </div>
+
+            <!-- AFTER THE MEETING ON STAGE WITH THE TEAM -->
+            <div class="card checklist-card" id="card-meeting">
+                <div class="section-header">
+                    <div class="section-icon">🏁</div>
+                    <div>
+                        <div class="section-title">After the Meeting on Stage with the Team</div>
+                    </div>
+                    <span class="section-count">0 / 5</span>
+                </div>
+                <div class="card-progress-wrap">
+                    <div class="card-progress-bar-container">
+                        <div class="card-progress-bar"></div>
+                    </div>
+                    <div class="card-progress-text">0% Complete</div>
+                </div>
+                <ul class="task-list">
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Black Screen</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Enable the livestream Mic 1 on the Blackmagic</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Start Youtube Livestream</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Start OBS RECORDING (for Elvin)</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Press Play on Kaleo AI</span></label></li>
+                </ul>
+            </div>
+
+            <!-- AFTER THE SERVICE -->
+            <div class="card checklist-card" id="card-teardown">
+                <div class="section-header">
+                    <div class="section-icon">🧹</div>
+                    <div>
+                        <div class="section-title">After the Service</div>
+                    </div>
+                    <span class="section-count">0 / 8</span>
+                </div>
+                <div class="card-progress-wrap">
+                    <div class="card-progress-bar-container">
+                        <div class="card-progress-bar"></div>
+                    </div>
+                    <div class="card-progress-text">0% Complete</div>
+                </div>
+                <ul class="task-list">
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Stop Livestream on Youtube</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Stop Recording on OBS (let the file generates)</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Close OBS</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Stop KALEO AI</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Turn Off the Projector</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Turn Off the Camera</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Lock the Computer (leave it on for the week)</span></label></li>
+                    <li class="task-item"><label class="task-label"><input type="checkbox" class="task-checkbox"><span
+                                class="task-text">Define with the other Tech who closes the AV Station</span></label>
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="footer">
+        <button class="reset-btn" id="reset-all-btn">
+            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Reset All
+        </button>
+    </footer>
+
+    <!-- All-Done Toast -->
+    <div class="all-done-toast" id="all-done-toast">🎉 All tasks completed! Great job!</div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // ===== Theme Toggle =====
             const themeToggleBtn = document.getElementById('theme-toggle');
             const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
             const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
 
-            // Check for saved theme in localStorage and apply it
-            if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            if (localStorage.getItem('color-theme') === 'dark' ||
+                (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 themeToggleLightIcon.classList.remove('hidden');
                 document.documentElement.classList.add('dark');
             } else {
@@ -187,12 +845,10 @@
                 document.documentElement.classList.remove('dark');
             }
 
-            themeToggleBtn.addEventListener('click', function() {
-                // toggle icons inside button
+            themeToggleBtn.addEventListener('click', () => {
                 themeToggleDarkIcon.classList.toggle('hidden');
                 themeToggleLightIcon.classList.toggle('hidden');
 
-                // if set via local storage previously
                 if (localStorage.getItem('color-theme')) {
                     if (localStorage.getItem('color-theme') === 'light') {
                         document.documentElement.classList.add('dark');
@@ -201,7 +857,6 @@
                         document.documentElement.classList.remove('dark');
                         localStorage.setItem('color-theme', 'light');
                     }
-                // if NOT set via local storage previously
                 } else {
                     if (document.documentElement.classList.contains('dark')) {
                         document.documentElement.classList.remove('dark');
@@ -213,42 +868,154 @@
                 }
             });
 
+            // ===== Card Entrance Animations =====
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, i) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, 120 + i * 150);
+            });
 
-            // Select all cards that have checklists
+            // ===== Checklist Progress Logic =====
             const checklistCards = document.querySelectorAll('.checklist-card');
+            const overallBar = document.getElementById('overall-progress-bar');
+            const overallPct = document.getElementById('overall-progress-pct');
+            const allDoneToast = document.getElementById('all-done-toast');
+            let allDoneShown = false;
 
-            // Function to update the progress for a single card
             function updateCardProgress(card) {
-                const checkboxes = card.querySelectorAll('.task-item input[type="checkbox"]');
-                const totalTasks = checkboxes.length;
-                const checkedTasks = card.querySelectorAll('.task-item input[type="checkbox"]:checked').length;
-                
-                const progressBar = card.querySelector('.progress-bar');
-                const progressText = card.querySelector('.progress-text');
+                const checkboxes = card.querySelectorAll('.task-checkbox');
+                const total = checkboxes.length;
+                const checked = card.querySelectorAll('.task-checkbox:checked').length;
+                const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
 
-                const percentage = totalTasks > 0 ? Math.round((checkedTasks / totalTasks) * 100) : 0;
-                
-                if (progressBar && progressText) {
-                    progressBar.style.width = percentage + '%';
-                    progressBar.textContent = percentage + '%';
-                    progressText.textContent = `${percentage}% Complete`;
+                const bar = card.querySelector('.card-progress-bar');
+                const text = card.querySelector('.card-progress-text');
+                const count = card.querySelector('.section-count');
+
+                if (bar) {
+                    bar.style.width = pct + '%';
+                    if (pct === 100) {
+                        bar.classList.add('complete');
+                    } else {
+                        bar.classList.remove('complete');
+                    }
+                }
+                if (text) text.textContent = pct + '% Complete';
+                if (count) count.textContent = `${checked} / ${total}`;
+
+                // Section-complete glow
+                if (pct === 100) {
+                    card.classList.add('section-complete');
+                } else {
+                    card.classList.remove('section-complete');
                 }
             }
 
-            // Set up each card
-            checklistCards.forEach(card => {
-                const checkboxes = card.querySelectorAll('.task-item input[type="checkbox"]');
-                
-                // Add event listener to each checkbox to update its parent card's progress
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', () => updateCardProgress(card));
-                });
+            function updateOverallProgress() {
+                const allCheckboxes = document.querySelectorAll('.task-checkbox');
+                const total = allCheckboxes.length;
+                const checked = document.querySelectorAll('.task-checkbox:checked').length;
+                const pct = total > 0 ? Math.round((checked / total) * 100) : 0;
 
-                // Initial calculation for each card on page load
+                overallBar.style.width = pct + '%';
+                overallPct.textContent = pct + '%';
+
+                // All-done celebration
+                if (pct === 100 && !allDoneShown) {
+                    allDoneShown = true;
+                    allDoneToast.classList.add('show');
+                    launchConfetti();
+                    setTimeout(() => allDoneToast.classList.remove('show'), 5000);
+                } else if (pct < 100) {
+                    allDoneShown = false;
+                    allDoneToast.classList.remove('show');
+                }
+            }
+
+            checklistCards.forEach(card => {
+                const checkboxes = card.querySelectorAll('.task-checkbox');
+                checkboxes.forEach(cb => {
+                    cb.addEventListener('change', () => {
+                        updateCardProgress(card);
+                        updateOverallProgress();
+                    });
+                });
                 updateCardProgress(card);
             });
+            updateOverallProgress();
+
+            // ===== Reset All =====
+            document.getElementById('reset-all-btn').addEventListener('click', () => {
+                const allCheckboxes = document.querySelectorAll('.task-checkbox');
+                allCheckboxes.forEach(cb => { cb.checked = false; });
+                checklistCards.forEach(card => updateCardProgress(card));
+                updateOverallProgress();
+            });
+
+            // ===== Confetti =====
+            function launchConfetti() {
+                const canvas = document.getElementById('confetti-canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                const particles = [];
+                const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#34d399', '#3b82f6', '#f43f5e'];
+                const particleCount = 150;
+
+                for (let i = 0; i < particleCount; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height * -1,
+                        w: Math.random() * 8 + 4,
+                        h: Math.random() * 4 + 2,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        vx: (Math.random() - 0.5) * 4,
+                        vy: Math.random() * 3 + 2,
+                        rotation: Math.random() * 360,
+                        rotationSpeed: (Math.random() - 0.5) * 10,
+                        opacity: 1,
+                    });
+                }
+
+                let frame = 0;
+                const maxFrames = 200;
+
+                function animate() {
+                    frame++;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                    particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.05;
+                        p.rotation += p.rotationSpeed;
+                        if (frame > maxFrames - 60) {
+                            p.opacity = Math.max(0, p.opacity - 0.02);
+                        }
+
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate((p.rotation * Math.PI) / 180);
+                        ctx.globalAlpha = p.opacity;
+                        ctx.fillStyle = p.color;
+                        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                        ctx.restore();
+                    });
+
+                    if (frame < maxFrames) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    }
+                }
+
+                animate();
+            }
         });
     </script>
 
 </body>
+
 </html>
